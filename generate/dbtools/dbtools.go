@@ -1,9 +1,10 @@
 package dbtools
 
 import (
-	"github.com/jinzhu/gorm"
-	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"github.com/simon66669/common/generate/conf"
+	"gorm.io/driver/mysql"
+	_ "gorm.io/driver/mysql"
+	"gorm.io/gorm"
 	"log"
 	"sync"
 )
@@ -27,8 +28,7 @@ func GetMysqlInstance() *MysqlConnectPool {
 func (m *MysqlConnectPool) InitMysqlPool() (issucc bool) {
 	dbConf := conf.MasterDbConfig
 	port := dbConf.Port
-	db, err_db = gorm.Open("mysql", dbConf.User+":"+dbConf.Pwd+"@tcp("+dbConf.Host+":"+port+")/"+dbConf.DbName+"?charset=utf8&parseTime=True&loc=Local")
-	db.SingularTable(true)
+	db, err_db = gorm.Open(mysql.Open(dbConf.User+":"+dbConf.Pwd+"@tcp("+dbConf.Host+":"+port+")/"+dbConf.DbName+"?charset=utf8&parseTime=True&loc=Local"), &gorm.Config{})
 	if err_db != nil {
 		log.Fatal(err_db)
 		return false
