@@ -21,4 +21,6 @@ type Robots struct {
 	UpdatedAt       time.Time       `json:"updated_at"`
 	Point           sql.NullFloat64 `json:"point"`
 	NarrowMultiple  sql.NullFloat64 `json:"narrow_multiple"` // 缩小倍数
+
+	CurrencyMatch CurrencyMatches `gorm:"foreignKey:currency_match_id"`
 }
